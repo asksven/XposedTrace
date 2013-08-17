@@ -45,13 +45,13 @@ public class Utils
 				+ " " + intent.toString();
 	}
 	
-	public static void logMethodCall(MethodHookParam param)
+	public static void logMethodCall(String tag, MethodHookParam param)
 	{
 
 		String args = "";
 		if (param == null)
 		{
-			Log.i(XposedHooks.TAG,"  " + "native call");
+			Log.i(XposedHooks.TAG + "." + tag,"  " + "native call");
 			return;
 		}
 		
@@ -68,16 +68,16 @@ public class Utils
 		String methodName = "";
 		if (param.method != null) methodName = param.method.getName();
 		
-		Log.i(XposedHooks.TAG,
+		Log.i(XposedHooks.TAG + "." + tag,
 				className 
 				+ "." 
 				+ methodName + " was called with arguments " + args);
 		// log the callstack 
-		Log.i(XposedHooks.TAG,"Callstack");
+		Log.i(XposedHooks.TAG + "." + tag,"Callstack");
 		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
 		for (int i=6; i < trace.length; i++)
 		{
-			Log.i(XposedHooks.TAG,"  " + trace[i].getClassName() + " " + trace[i].getMethodName());
+			Log.i(XposedHooks.TAG + "." + tag,"  " + trace[i].getClassName() + " " + trace[i].getMethodName());
 		}
 	}
 }

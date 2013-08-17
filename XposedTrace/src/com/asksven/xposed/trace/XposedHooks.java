@@ -35,40 +35,36 @@ import de.robv.android.xposed.XC_MethodHook;
  */
 public class XposedHooks implements IXposedHookLoadPackage
 {
-	public static final String TAG = "XposedTest";
+	public static final String TAG = "XposedTrace";
 	
 	public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable
 	{
 		
-		XSharedPreferences sharedPrefs = new XSharedPreferences(lpparam.appInfo.packageName);
+		XSharedPreferences sharedPrefs = new XSharedPreferences("com.asksven.xposedtrace");
 //		XposedBridge.log("Loaded app: " + lpparam.packageName);
 		
 		if (!lpparam.packageName.equals("android"))
 			return;
 		
 		// AlarmManager
-		boolean doLog = sharedPrefs.getBoolean("trace_alarm_manager", false);
-		if (doLog)
+		if ((sharedPrefs != null) && sharedPrefs.getBoolean("trace_alarm_manager", true))
 		{
 			traceClass("android.app.AlarmManager", lpparam);
 		}
 		
 		// AlarmManagerService debug log
-		doLog = sharedPrefs.getBoolean("trace_alarm_manager_service", false);
-		if (doLog)
+		if ((sharedPrefs != null) && sharedPrefs.getBoolean("trace_alarm_manager_service", true))
 		{
 			systemLogforClass("com.android.server.AlarmManagerService", "localLOGV", lpparam);
 		}
 
 		// AlarmManagerService debug l
-		doLog = sharedPrefs.getBoolean("trace_location_manager_service", false);
-		if (doLog)
+		if ((sharedPrefs != null) && sharedPrefs.getBoolean("trace_location_manager_service", true))
 		{
 			systemLogforClass("com.android.server.LocationManagerService", "D", lpparam);
 		}
 		// LocationManager
-		doLog = sharedPrefs.getBoolean("trace_location_manager", false);
-		if (doLog)
+		if ((sharedPrefs != null) && sharedPrefs.getBoolean("trace_location_manager", true))
 		{
 			traceClass("android.location.LocationManager", lpparam);
 		}
@@ -83,21 +79,21 @@ public class XposedHooks implements IXposedHookLoadPackage
 	private boolean traceClass(String className, LoadPackageParam lpparam)
 	{
 		boolean ret = true;
-		Class<?> classForTrace = XposedHelpers.findClass(className, lpparam.classLoader);
+		final Class<?> classForTrace = XposedHelpers.findClass(className, lpparam.classLoader);
 		if (classForTrace != null)
 		{
 			XposedBridge.log(classForTrace.getName() + " found in " + lpparam.packageName);
 			try
 			{
 				// hook all methods
-				for (Member method : classForTrace.getDeclaredMethods())
+				for (final Member method : classForTrace.getDeclaredMethods())
 				{
 					XposedBridge.hookMethod(method, new XC_MethodHook()
 					{
 						@Override
 						protected void afterHookedMethod(MethodHookParam param) throws Throwable
 						{
-							Utils.logMethodCall(param);
+							Utils.logMethodCall(classForTrace.getName() + "." + method.getName(), param);
 						}
 					});
 					Log.d(TAG, "method " + method + " hooked");
@@ -130,7 +126,7 @@ public class XposedHooks implements IXposedHookLoadPackage
 	private boolean systemLogforClass(String className, final String fieldName, LoadPackageParam lpparam)
 	{
 		boolean ret = true;
-		Class<?> classForDebugLog = XposedHelpers.findClass(className, lpparam.classLoader);
+		final Class<?> classForDebugLog = XposedHelpers.findClass(className, lpparam.classLoader);
 		if (classForDebugLog != null)
 		{
 			Log.d(TAG, classForDebugLog.getName() + " found in " + lpparam.packageName);
@@ -145,7 +141,7 @@ public class XposedHooks implements IXposedHookLoadPackage
 					{
 						XposedHelpers.setBooleanField(param.thisObject, fieldName, true);
 						Log.d(TAG, fieldName + " set to " + XposedHelpers.getBooleanField(param.thisObject, fieldName));
-						Utils.logMethodCall(param);
+						Utils.logMethodCall(classForDebugLog.getName() + ".DEBUG", param);
 					}
 				});
 				Log.d(TAG, "constructor hooked");

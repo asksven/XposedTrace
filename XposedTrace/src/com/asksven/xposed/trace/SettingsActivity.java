@@ -16,9 +16,7 @@
 
 package com.asksven.xposed.trace;
 
-
-import com.asksven.xposed.test.R;
-
+import com.asksven.xposed.trace.R;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
