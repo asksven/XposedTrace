@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_cat_trace"
+        android:fontFamily="sans-serif-condensed" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="trace_alarm_manager"
+            android:summary="@string/trace_alarm_manager_summary"
+            android:title="@string/trace_alarm_manager_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="trace_alarm_manager_service"
+            android:summary="@string/trace_alarm_manager_service_summary"
+            android:title="@string/trace_alarm_manager_service_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="trace_location_manager"
+            android:summary="@string/trace_location_manager_summary"
+            android:title="@string/trace_location_manager_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="trace_location_manager_service"
+            android:summary="@string/trace_location_manager_service_summary"
+            android:title="@string/trace_location_manager_service_title" />
+        
+        </PreferenceCategory>
+
+</PreferenceScreen>

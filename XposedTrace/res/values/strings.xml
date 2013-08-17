@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">XposedTrace</string>
+    <string name="action_settings">Settings</string>
+    <string name="title">Xposed Trace Utility by @asksven</string>
+    <string name="description">This Xposed module was designed to collect trace information for specific classes.\nYou can turn trace on/off from the settings.\nPlease remember that a reboot is required for the settings to be applied.</string>
+    <string name="pref_cat_trace">Enable Trace</string>
+    <string name="trace_alarm_manager_summary">Enable trace for AlarmManager</string>
+    <string name="trace_alarm_manager_title">AlarmManager</string>
+    <string name="trace_alarm_manager_service_summary">Enable trace for AlarmManagerService</string>
+    <string name="trace_alarm_manager_service_title">AlarmManagerService</string>
+    <string name="trace_location_manager_summary">Enable trace for LocationManager</string>
+    <string name="trace_location_manager_title">LocationManager</string>
+    <string name="trace_location_manager_service_summary">Enable trace for LocationManagerService</string>
+    <string name="trace_location_manager_service_title">LocationManagerService</string>
+    
+</resources>
